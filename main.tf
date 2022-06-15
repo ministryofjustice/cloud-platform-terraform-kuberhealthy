@@ -27,7 +27,6 @@ resource "helm_release" "kuberhealthy" {
   repository = "https://github.com/kuberhealthy/kuberhealthy/tree/master/deploy/helm"
   chart      = "kuberhealthy"
   version    = "87"
-  appversion = "2.7.1"
 
   set {
     name  = "auditFromCache"
