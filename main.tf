@@ -43,4 +43,10 @@ resource "helm_release" "kuberhealthy" {
     ignore_changes = [keyring]
   }
 }
-
+#########################
+# kuberhealthy checks #
+#########################
+resource "kubectl_manifest" "prometheus_rule_alert" {
+  depends_on = [helm_release.kuberhealthy]
+  yaml_body  = file("${path.module}/checks/namespace/namespacecheck.yaml")
+}
