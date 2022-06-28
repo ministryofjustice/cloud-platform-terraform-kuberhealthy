@@ -24,7 +24,7 @@ resource "kubernetes_namespace" "kuberhealthy" {
 resource "helm_release" "kuberhealthy" {
   name       = "kuberhealthy"
   namespace  = kubernetes_namespace.kuberhealthy.id
-  repository = "https://github.com/kuberhealthy/kuberhealthy/tree/master/deploy/helm"
+  repository = "https://kuberhealthy.github.io/kuberhealthy/helm-repos/"
   chart      = "kuberhealthy"
   version    = "87"
 
@@ -36,6 +36,16 @@ resource "helm_release" "kuberhealthy" {
   set {
     name  = "postInstall.labelNamespace.enabled"
     value = "false"
+  }
+
+  set {
+    name  = "prometheus.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "prometheus.serviceMonitor.enabled"
+    value = "true"
   }
 
   lifecycle {
