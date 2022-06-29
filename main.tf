@@ -53,9 +53,9 @@ resource "helm_release" "kuberhealthy" {
   }
 }
 #########################
-# kuberhealthy checks #
+# kuberhealthy placeholder for our future custom alerts#
 #########################
-resource "kubectl_manifest" "prometheus_rule_alert" {
+resource "kubectl_manifest" "namespacecheck_rule_alert" {
   depends_on = [helm_release.kuberhealthy]
   yaml_body  = file("${path.module}/checks/namespace/namespacecheck.yaml")
 }
