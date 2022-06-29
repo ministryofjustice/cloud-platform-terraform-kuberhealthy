@@ -24,7 +24,7 @@ resource "kubernetes_namespace" "kuberhealthy" {
 resource "helm_release" "kuberhealthy" {
   name       = "kuberhealthy"
   namespace  = kubernetes_namespace.kuberhealthy.id
-  repository = "https://github.com/kuberhealthy/kuberhealthy/tree/master/deploy/helm"
+  repository = "https://kuberhealthy.github.io/kuberhealthy/helm-repos/"
   chart      = "kuberhealthy"
   version    = "87"
 
@@ -38,14 +38,24 @@ resource "helm_release" "kuberhealthy" {
     value = "false"
   }
 
+  set {
+    name  = "prometheus.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "prometheus.serviceMonitor.enabled"
+    value = "true"
+  }
+
   lifecycle {
     ignore_changes = [keyring]
   }
 }
 #########################
-# kuberhealthy checks #
+# kuberhealthy placeholder for our future custom alerts#
 #########################
-resource "kubectl_manifest" "prometheus_rule_alert" {
+resource "kubectl_manifest" "namespacecheck_rule_alert" {
   depends_on = [helm_release.kuberhealthy]
   yaml_body  = file("${path.module}/checks/namespace/namespacecheck.yaml")
 }
