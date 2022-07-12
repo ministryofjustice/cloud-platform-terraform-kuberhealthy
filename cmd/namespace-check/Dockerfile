@@ -18,8 +18,8 @@ FROM scratch
 COPY --from=builder /etc/passwd /etc/passwd
 # https://github.com/aws/aws-sdk-go/issues/2322
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=builder /app/namespace /app/namespace
+COPY --from=builder /app/namespace-check /app/namespace-check
 
 USER kuberhealthy
 
-CMD ["/app/namespace"]
+CMD ["/app/namespace-check"]
