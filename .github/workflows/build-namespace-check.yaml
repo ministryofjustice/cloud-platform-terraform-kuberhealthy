@@ -18,7 +18,7 @@ jobs:
       - name: Tag reference
         id: tag_name
         run: |
-          echo echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+          echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Push namespace-check to docker hub
         uses: docker/build-push-action@v1
         with:
