@@ -4,10 +4,6 @@ on:
   release:
     types: [published]
 
-  push:
-    branches:
-      - "*"
-
 env:
   TEST_TAG: ministryofjustice/cloud-platform-kuberhealthy-namespace-check:test
 
@@ -44,4 +40,4 @@ jobs:
         with:
           context: cmd/namespace-check
           tags: |
-            ministryofjustice/cloud-platform-kuberhealthy-namespace-check:${{ github.sha }}
+            ministryofjustice/cloud-platform-kuberhealthy-namespace-check:${{ github.event.release.tag_name }}
