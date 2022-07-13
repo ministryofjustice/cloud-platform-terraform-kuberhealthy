@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"time"
 
 	log "github.com/sirupsen/logrus"
 	"k8s.io/client-go/kubernetes"
@@ -18,17 +17,10 @@ import (
 )
 
 var (
-	client *kubernetes.Clientset
 
 	// K8s config file for the client.
-	KubeConfigFile = filepath.Join(os.Getenv("HOME"), ".kube", "config")
+	kubeConfigFile = filepath.Join(os.Getenv("HOME"), ".kube", "config")
 	// We have to explicitly list of namespaces that we want to look for
-
-	ctx       context.Context
-	ctxCancel context.CancelFunc
-
-	debugEnv = os.Getenv("DEBUG")
-	debug    bool
 
 	namespaces = []string{
 		"cert-manager",
@@ -52,12 +44,12 @@ type Options struct {
 
 func main() {
 	// create context
-	ctx, ctxCancel = context.WithTimeout(context.Background(), time.Duration(time.Minute*5))
+	ctx := context.Background()
 
 	// Create a kubernetes client.
 	var err error
 	o := Options{}
-	o.client, err = kubeClient.Create(KubeConfigFile)
+	o.client, err = kubeClient.Create(kubeConfigFile)
 	if err != nil {
 		errorMessage := "failed to create a kubernetes client with error: " + err.Error()
 		reportErr := kh.ReportFailure([]string{errorMessage})
