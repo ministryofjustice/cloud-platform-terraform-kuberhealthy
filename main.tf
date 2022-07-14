@@ -57,5 +57,5 @@ resource "helm_release" "kuberhealthy" {
 #########################
 resource "kubectl_manifest" "namespacecheck_rule_alert" {
   depends_on = [helm_release.kuberhealthy]
-  yaml_body  = file("${path.module}/checks/namespace/namespacecheck.yaml")
+  yaml_body  = file("${path.module}/cmd/namespace-check/namespace-check.yaml")
 }
