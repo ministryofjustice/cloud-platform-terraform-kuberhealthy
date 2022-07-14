@@ -48,6 +48,11 @@ resource "helm_release" "kuberhealthy" {
     value = "true"
   }
 
+  set {
+    name = "prometheus.prometheusRule.enabled"
+    value = "false"
+  }
+
   lifecycle {
     ignore_changes = [keyring]
   }

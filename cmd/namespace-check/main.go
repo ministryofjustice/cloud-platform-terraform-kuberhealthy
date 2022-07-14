@@ -10,7 +10,6 @@ import (
 	"k8s.io/client-go/kubernetes"
 
 	"github.com/kuberhealthy/kuberhealthy/v2/pkg/checks/external/checkclient"
-	kh "github.com/kuberhealthy/kuberhealthy/v2/pkg/checks/external/checkclient"
 	"github.com/kuberhealthy/kuberhealthy/v2/pkg/kubeClient"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -52,7 +51,7 @@ func main() {
 	o.client, err = kubeClient.Create(kubeConfigFile)
 	if err != nil {
 		errorMessage := "failed to create a kubernetes client with error: " + err.Error()
-		reportErr := kh.ReportFailure([]string{errorMessage})
+		reportErr := checkclient.ReportFailure([]string{errorMessage})
 		if reportErr != nil {
 			log.Fatalln("error reporting failure to kuberhealthy:", reportErr.Error())
 		}
@@ -61,15 +60,19 @@ func main() {
 	log.Infoln("Kubernetes client created.")
 
 	ok, err := o.namespaceExist(ctx)
-	if err != nil {
-		log.Fatalln("Namespace check failed:", err)
-	}
+	if ok {
+		reportErr := checkclient.ReportSuccess()
+		if reportErr != nil {
+			log.Fatalln("error reporting to kuberhealthy:", err.Error())
 
-	if !ok {
-		checkclient.ReportFailure([]string{"Namespace check failed"})
+		}
 		return
 	}
-	checkclient.ReportSuccess()
+
+	reportErr := checkclient.ReportFailure([]string{"Namespace check failed:" + err.Error()})
+	if reportErr != nil {
+		log.Fatalln("error reporting to kuberhealthy:", err.Error())
+	}
 }
 
 func (o Options) namespaceExist(ctx context.Context) (bool, error) {
