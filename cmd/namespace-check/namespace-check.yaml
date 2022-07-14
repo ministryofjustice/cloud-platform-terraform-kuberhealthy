@@ -1,3 +1,4 @@
+# namespace kuberhealthy check
 apiVersion: comcast.github.io/v1
 kind: KuberhealthyCheck
 metadata:
@@ -15,6 +16,7 @@ spec:
         securityContext:
           runAsUser: 999
     serviceAccountName: namespace-check-sa
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -28,6 +30,7 @@ subjects:
   - kind: ServiceAccount
     name: namespace-check-sa
     namespace: kuberhealthy
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -42,6 +45,7 @@ rules:
       - get
       - list
       - watch
+      
 ---
 apiVersion: v1
 kind: ServiceAccount
