@@ -62,7 +62,7 @@ resource "helm_release" "kuberhealthy" {
 #########################
 
 data "kubectl_path_documents" "namespace_check_manifests" {
-  pattern = "${path.module}/cmd/namespace-check/namespace-check.yaml"
+  pattern = "${path.module}/resources/namespace-check.yaml"
 }
 
 resource "kubectl_manifest" "namespacecheck_rule_alert" {

@@ -1,0 +1,54 @@
+# namespace kuberhealthy check
+apiVersion: comcast.github.io/v1
+kind: KuberhealthyCheck
+metadata:
+  name: namespace-kh-check
+  namespace: kuberhealthy
+spec:
+  runInterval: 30s # The interval that Kuberhealthy will run your check on
+  timeout: 2m # After this much time, Kuberhealthy will kill your check and consider it "failed"
+  podSpec: # The exact pod spec that will run.  All normal pod spec is valid here.
+    containers:
+      - env: [] # Environment variables are optional but a recommended way to configure check behavior
+        image: ministryofjustice/namespace-kh-check:1.3
+        imagePullPolicy: IfNotPresent 
+        name: main
+        securityContext:
+          runAsUser: 999
+    serviceAccountName: namespace-check-sa
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: namespace-check-rb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: namespace-check-role
+subjects:
+  - kind: ServiceAccount
+    name: namespace-check-sa
+    namespace: kuberhealthy
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: namespace-check-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+      - list
+      - watch
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: namespace-check-sa
+  namespace: kuberhealthy
