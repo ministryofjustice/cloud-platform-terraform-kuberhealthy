@@ -10,12 +10,6 @@ module "kuberhealthy" {
   source = "github.com/ministryofjustice/cloud-platform-terraform-kuberhealthy?ref=v1.0.1"
 }
 ```
-
-<!--- BEGIN_TF_DOCS --->
-
-<!--- END_TF_DOCS --->
-
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
