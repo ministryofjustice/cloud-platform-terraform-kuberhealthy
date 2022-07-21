@@ -14,7 +14,7 @@ resource "kubernetes_namespace" "kuberhealthy" {
       "cloud-platform.justice.gov.uk/business-unit" = "Platforms"
       "cloud-platform.justice.gov.uk/owner"         = "Cloud Platform: platforms@digital.justice.gov.uk"
       "cloud-platform.justice.gov.uk/source-code"   = "https://github.com/ministryofjustice/cloud-platform-infrastructure"
-# potentially "https://github.com/ministryofjustice/cloud-platform-infrastructure/blob/master/terraform/cloud-platform-components/kuberhealthy.tf"
+      # potentially "https://github.com/ministryofjustice/cloud-platform-infrastructure/blob/master/terraform/cloud-platform-components/kuberhealthy.tf"
       "cloud-platform.justice.gov.uk/slack-channel" = "cloud-platform"
       "cloud-platform-out-of-hours-alert"           = "true"
     }
@@ -49,7 +49,7 @@ resource "helm_release" "kuberhealthy" {
   }
 
   set {
-    name = "prometheus.prometheusRule.enabled"
+    name  = "prometheus.prometheusRule.enabled"
     value = "false"
   }
 
@@ -66,6 +66,7 @@ data "kubectl_path_documents" "namespace_check_manifests" {
 }
 
 resource "kubectl_manifest" "namespacecheck_rule_alert" {
-  count     = length(data.kubectl_path_documents.namespace_check_manifests.documents)
-  yaml_body = element(data.kubectl_path_documents.namespace_check_manifests.documents, count.index)
+  count      = length(data.kubectl_path_documents.namespace_check_manifests.documents)
+  yaml_body  = element(data.kubectl_path_documents.namespace_check_manifests.documents, count.index)
+  depends_on = [helm_release.kuberhealthy]
 }
