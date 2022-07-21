@@ -14,7 +14,6 @@ resource "kubernetes_namespace" "kuberhealthy" {
       "cloud-platform.justice.gov.uk/business-unit" = "Platforms"
       "cloud-platform.justice.gov.uk/owner"         = "Cloud Platform: platforms@digital.justice.gov.uk"
       "cloud-platform.justice.gov.uk/source-code"   = "https://github.com/ministryofjustice/cloud-platform-infrastructure"
-      # potentially "https://github.com/ministryofjustice/cloud-platform-infrastructure/blob/master/terraform/cloud-platform-components/kuberhealthy.tf"
       "cloud-platform.justice.gov.uk/slack-channel" = "cloud-platform"
       "cloud-platform-out-of-hours-alert"           = "true"
     }
