@@ -25,7 +25,6 @@ module "kuberhealthy" {
 | <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.6.0 |
 | <a name="provider_kubectl"></a> [kubectl](#provider\_kubectl) | n/a |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | n/a |
-| <a name="provider_template"></a> [template](#provider\_template) | n/a |
 
 ## Modules
 
@@ -38,11 +37,13 @@ No modules.
 | [helm_release.kuberhealthy](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [kubectl_manifest.namespacecheck_rule_alert](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
 | [kubernetes_namespace.kuberhealthy](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
-| [template_file.namespace_check_manifests](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+| [kubectl_path_documents.namespace_check_manifests](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/data-sources/path_documents) | data source |
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_dependence_prometheus"></a> [dependence\_prometheus](#input\_dependence\_prometheus) | Prometheus module - Prometheus Operator dependences in order to be executed. | `any` | n/a | yes |
 
 ## Outputs
 
