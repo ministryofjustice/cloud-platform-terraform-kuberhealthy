@@ -55,6 +55,10 @@ resource "helm_release" "kuberhealthy" {
   lifecycle {
     ignore_changes = [keyring]
   }
+
+  depends_on = [
+    var.dependence_prometheus
+  ]
 }
 #########################
 # kuberhealthy placeholder for our future custom alerts#
@@ -66,7 +70,7 @@ data "kubectl_path_documents" "namespace_check_manifests" {
 }
 
 resource "kubectl_manifest" "namespacecheck_rule_alert" {
-  count      = length(fileset(path.module, "/resources/namespace-check.yaml"))
+  count      = length(data.kubectl_path_documents.namespace_check_manifests.documents)
   yaml_body  = element(data.kubectl_path_documents.namespace_check_manifests.documents, count.index)
   depends_on = [helm_release.kuberhealthy]
 }
