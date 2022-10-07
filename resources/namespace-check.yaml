@@ -18,7 +18,6 @@ spec:
     serviceAccountName: namespace-check-sa
 
 ---
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -33,7 +32,6 @@ subjects:
     namespace: kuberhealthy
 
 ---
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -49,7 +47,6 @@ rules:
       - watch
 
 ---
-
 apiVersion: v1
 kind: ServiceAccount
 metadata:
