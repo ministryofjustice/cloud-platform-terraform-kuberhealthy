@@ -66,7 +66,7 @@ data "kubectl_path_documents" "namespace_check_manifests" {
 }
 
 resource "kubectl_manifest" "namespacecheck_rule_alert" {
-  count      = length(fileset(data.kubectl_path_documents.namespace_check_manifests.documents))
+  count      = length(fileset(path.module, "/resources/namespace-check.yaml"))
   yaml_body  = element(data.kubectl_path_documents.namespace_check_manifests.documents, count.index)
   depends_on = [helm_release.kuberhealthy]
 }
