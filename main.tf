@@ -60,18 +60,13 @@ resource "helm_release" "kuberhealthy" {
 # kuberhealthy placeholder for our future custom alerts#
 #########################
 
-data "template_file" "namespace_check_manifests" {
 
-  template = file(
-    "${path.module}/resources/namespace-check.yaml.tpl",
-  )
-
-  vars = {
-    namespace_check_version = "1.1"
-  }
+data "kubectl_path_documents" "namespace_check_manifests" {
+  pattern = "${path.module}/resources/namespace-check.yaml"
 }
 
 resource "kubectl_manifest" "namespacecheck_rule_alert" {
-  yaml_body  = data.template_file.namespace_check_manifests.rendered
+  count      = length(fileset(data.kubectl_path_documents.namespace_check_manifests.documents))
+  yaml_body  = element(data.kubectl_path_documents.namespace_check_manifests.documents, count.index)
   depends_on = [helm_release.kuberhealthy]
 }
