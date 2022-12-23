@@ -1,4 +1,4 @@
 module "kuberhealthy" {
-  source = "../"
+  source                = "../"
   dependence_prometheus = "ignore"
 }
