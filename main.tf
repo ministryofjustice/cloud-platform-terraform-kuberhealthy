@@ -26,7 +26,7 @@ resource "helm_release" "kuberhealthy" {
   namespace  = kubernetes_namespace.kuberhealthy.id
   repository = "https://kuberhealthy.github.io/kuberhealthy/helm-repos/"
   chart      = "kuberhealthy"
-  version    = "87"
+  version    = "92"
 
   set {
     name  = "auditFromCache"
