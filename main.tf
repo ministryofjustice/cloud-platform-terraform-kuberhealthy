@@ -64,7 +64,7 @@ resource "helm_release" "kuberhealthy" {
 
 resource "kubernetes_cluster_role_binding" "super_privileged_bypass" {
   metadata {
-    name = "cluster-autoscaler:0-super-privileged"
+    name = "kuberhealthy:0-super-privileged"
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
