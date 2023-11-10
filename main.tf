@@ -61,6 +61,22 @@ resource "helm_release" "kuberhealthy" {
     var.dependence_prometheus
   ]
 }
+
+resource "kubernetes_cluster_role_binding" "super_privileged_bypass" {
+  metadata {
+    name = "kuberhealthy:0-super-privileged"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "psp:0-super-privileged"
+  }
+  subject {
+    kind      = "Group"
+    name      = "system:serviceaccounts:kuberhealthy"
+    api_group = "rbac.authorization.k8s.io"
+  }
+}
 #########################
 # kuberhealthy placeholder for our future custom alerts#
 #########################
