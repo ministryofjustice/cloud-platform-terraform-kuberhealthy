@@ -7,7 +7,7 @@ resource "kubernetes_namespace" "kuberhealthy" {
       "component"                                      = "kuberhealthy"
       "cloud-platform.justice.gov.uk/is-production"    = "true"
       "cloud-platform.justice.gov.uk/environment-name" = "production"
-      "pod-security.kubernetes.io/enforce"             = "restricted"
+      "pod-security.kubernetes.io/enforce"             = "privileged"
     }
 
     annotations = {
