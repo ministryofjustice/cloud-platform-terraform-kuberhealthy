@@ -57,9 +57,6 @@ resource "helm_release" "kuberhealthy" {
     ignore_changes = [keyring]
   }
 
-  depends_on = [
-    var.dependence_prometheus
-  ]
 }
 
 #########################

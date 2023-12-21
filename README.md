@@ -45,7 +45,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_dependence_prometheus"></a> [dependence\_prometheus](#input\_dependence\_prometheus) | Prometheus module - Prometheus Operator dependences in order to be executed. | `any` | n/a | yes |
 
 ## Outputs
 
