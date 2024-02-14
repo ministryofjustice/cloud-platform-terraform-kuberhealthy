@@ -62,17 +62,12 @@ resource "helm_release" "kuberhealthy" {
   ]
 }
 
-#########################
-# kuberhealthy placeholder for our future custom alerts#
-#########################
-
-
-data "kubectl_path_documents" "namespace_check_manifests" {
-  pattern = "${path.module}/resources/namespace-check.yaml"
-}
-
 resource "kubectl_manifest" "namespacecheck_rule_alert" {
-  count      = length(data.kubectl_path_documents.namespace_check_manifests.documents)
-  yaml_body  = element(data.kubectl_path_documents.namespace_check_manifests.documents, count.index)
+  for_each = fileset("${path.module}/../resources/", "*")
+
+  wait = true
+
+  yaml_body = file("${path.module}/resources/${each.value}")
+
   depends_on = [helm_release.kuberhealthy]
 }
