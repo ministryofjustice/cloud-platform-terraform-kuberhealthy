@@ -56,18 +56,27 @@ resource "helm_release" "kuberhealthy" {
   lifecycle {
     ignore_changes = [keyring]
   }
-
-  depends_on = [
-    var.dependence_prometheus
-  ]
 }
 
+
 resource "kubectl_manifest" "namespacecheck_rule_alert" {
-  for_each = fileset("${path.module}/../resources/", "*")
+  for_each = fileset("${path.module}/resources/", "*.yaml")
 
   wait = true
 
   yaml_body = file("${path.module}/resources/${each.value}")
 
   depends_on = [helm_release.kuberhealthy]
+}
+
+resource "kubectl_manifest" "namespace_check" {
+  wait = true
+
+  yaml_body = templatefile("${path.module}/templatefile/namespace-check.yaml.tmpl", {
+    cluster_env = var.cluster_env
+  })
+
+
+  depends_on = [helm_release.kuberhealthy, kubectl_manifest.namespacecheck_rule_alert]
+
 }
