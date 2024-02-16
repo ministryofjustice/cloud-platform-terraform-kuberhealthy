@@ -1,4 +1,4 @@
 module "kuberhealthy" {
-  source                = "../"
-  dependence_prometheus = "ignore"
+  source      = "../"
+  cluster_env = terraform.workspace
 }

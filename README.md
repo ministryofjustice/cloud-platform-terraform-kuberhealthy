@@ -8,6 +8,8 @@ Terraform module that deploys kuberhealthy which is a Kubernetes operator for sy
 ```hcl
 module "kuberhealthy" {
   source = "github.com/ministryofjustice/cloud-platform-terraform-kuberhealthy?ref=v1.0.1"
+
+  cluster_env = terraform.workspace
 }
 ```
 <!-- BEGIN_TF_DOCS -->

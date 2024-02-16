@@ -26,7 +26,7 @@ resource "helm_release" "kuberhealthy" {
   namespace  = kubernetes_namespace.kuberhealthy.id
   repository = "https://kuberhealthy.github.io/kuberhealthy/helm-repos/"
   chart      = "kuberhealthy"
-  version    = "92"
+  version    = "104"
 
   set {
     name  = "auditFromCache"
@@ -72,7 +72,7 @@ resource "kubectl_manifest" "namespacecheck_rule_alert" {
 resource "kubectl_manifest" "namespace_check" {
   wait = true
 
-  yaml_body = templatefile("${path.module}/templatefile/namespace-check.yaml.tmpl", {
+  yaml_body = templatefile("${path.module}/templates/namespace-check.yaml.tmpl", {
     cluster_env = var.cluster_env
   })
 
