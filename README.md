@@ -8,6 +8,8 @@ Terraform module that deploys kuberhealthy which is a Kubernetes operator for sy
 ```hcl
 module "kuberhealthy" {
   source = "github.com/ministryofjustice/cloud-platform-terraform-kuberhealthy?ref=v1.0.1"
+
+  cluster_env = terraform.workspace
 }
 ```
 <!-- BEGIN_TF_DOCS -->
@@ -37,15 +39,15 @@ No modules.
 | Name | Type |
 |------|------|
 | [helm_release.kuberhealthy](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
+| [kubectl_manifest.namespace_check](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
 | [kubectl_manifest.namespacecheck_rule_alert](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
 | [kubernetes_namespace.kuberhealthy](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
-| [kubectl_path_documents.namespace_check_manifests](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/data-sources/path_documents) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_dependence_prometheus"></a> [dependence\_prometheus](#input\_dependence\_prometheus) | Prometheus module - Prometheus Operator dependences in order to be executed. | `any` | n/a | yes |
+| <a name="input_cluster_env"></a> [cluster\_env](#input\_cluster\_env) | the name of the cluster | `string` | n/a | yes |
 
 ## Outputs
 

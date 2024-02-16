@@ -26,7 +26,7 @@ resource "helm_release" "kuberhealthy" {
   namespace  = kubernetes_namespace.kuberhealthy.id
   repository = "https://kuberhealthy.github.io/kuberhealthy/helm-repos/"
   chart      = "kuberhealthy"
-  version    = "92"
+  version    = "104"
 
   set {
     name  = "auditFromCache"
@@ -56,23 +56,27 @@ resource "helm_release" "kuberhealthy" {
   lifecycle {
     ignore_changes = [keyring]
   }
-
-  depends_on = [
-    var.dependence_prometheus
-  ]
 }
 
-#########################
-# kuberhealthy placeholder for our future custom alerts#
-#########################
-
-
-data "kubectl_path_documents" "namespace_check_manifests" {
-  pattern = "${path.module}/resources/namespace-check.yaml"
-}
 
 resource "kubectl_manifest" "namespacecheck_rule_alert" {
-  count      = length(data.kubectl_path_documents.namespace_check_manifests.documents)
-  yaml_body  = element(data.kubectl_path_documents.namespace_check_manifests.documents, count.index)
+  for_each = fileset("${path.module}/resources/", "*.yaml")
+
+  wait = true
+
+  yaml_body = file("${path.module}/resources/${each.value}")
+
   depends_on = [helm_release.kuberhealthy]
+}
+
+resource "kubectl_manifest" "namespace_check" {
+  wait = true
+
+  yaml_body = templatefile("${path.module}/templates/namespace-check.yaml.tmpl", {
+    cluster_env = var.cluster_env
+  })
+
+
+  depends_on = [helm_release.kuberhealthy, kubectl_manifest.namespacecheck_rule_alert]
+
 }
