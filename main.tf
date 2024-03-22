@@ -58,15 +58,25 @@ resource "helm_release" "kuberhealthy" {
   }
 }
 
-
-resource "kubectl_manifest" "namespacecheck_rule_alert" {
-  for_each = fileset("${path.module}/resources/", "*.yaml")
-
-  wait = true
-
-  yaml_body = file("${path.module}/resources/${each.value}")
+resource "kubectl_manifest" "namespacecheck_rule_alert_crb" {
+  yaml_body = file("${path.module}/resources/cluster-role-binding.yaml")
 
   depends_on = [helm_release.kuberhealthy]
+}
+
+resource "kubectl_manifest" "namespacecheck_rule_alert_role" {
+  yaml_body = file("${path.module}/resources/cluster-role.yaml")
+
+  depends_on = [helm_release.kuberhealthy]
+}
+
+resource "kubectl_manifest" "namespacecheck_rule_alert_sa" {
+  yaml_body = file("${path.module}/resources/serviceaccount.yaml")
+
+  depends_on = [
+    helm_release.kuberhealthy,
+    kubectl_manifest.namespacecheck_rule_alertcrb
+  ]
 }
 
 resource "kubectl_manifest" "namespace_check" {
@@ -77,6 +87,6 @@ resource "kubectl_manifest" "namespace_check" {
   })
 
 
-  depends_on = [helm_release.kuberhealthy, kubectl_manifest.namespacecheck_rule_alert]
+  depends_on = [helm_release.kuberhealthy, kubectl_manifest.namespacecheck_rule_alert_sa]
 
 }
