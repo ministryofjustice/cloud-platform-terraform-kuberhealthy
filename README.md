@@ -40,8 +40,8 @@ No modules.
 |------|------|
 | [helm_release.kuberhealthy](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [kubectl_manifest.namespace_check](https://registry.terraform.io/providers/alekc/kubectl/2.0.4/docs/resources/manifest) | resource |
+| [kubectl_manifest.namespacecheck_rule_alert_cr](https://registry.terraform.io/providers/alekc/kubectl/2.0.4/docs/resources/manifest) | resource |
 | [kubectl_manifest.namespacecheck_rule_alert_crb](https://registry.terraform.io/providers/alekc/kubectl/2.0.4/docs/resources/manifest) | resource |
-| [kubectl_manifest.namespacecheck_rule_alert_role](https://registry.terraform.io/providers/alekc/kubectl/2.0.4/docs/resources/manifest) | resource |
 | [kubectl_manifest.namespacecheck_rule_alert_sa](https://registry.terraform.io/providers/alekc/kubectl/2.0.4/docs/resources/manifest) | resource |
 | [kubernetes_namespace.kuberhealthy](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
 
