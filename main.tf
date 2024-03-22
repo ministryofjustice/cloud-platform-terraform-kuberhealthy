@@ -64,7 +64,7 @@ resource "kubectl_manifest" "namespacecheck_rule_alert_crb" {
   depends_on = [helm_release.kuberhealthy]
 }
 
-resource "kubectl_manifest" "namespacecheck_rule_alert_role" {
+resource "kubectl_manifest" "namespacecheck_rule_alert_cr" {
   yaml_body = file("${path.module}/resources/cluster-role.yaml")
 
   depends_on = [helm_release.kuberhealthy]
