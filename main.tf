@@ -75,7 +75,7 @@ resource "kubectl_manifest" "namespacecheck_rule_alert_sa" {
 
   depends_on = [
     helm_release.kuberhealthy,
-    kubectl_manifest.namespacecheck_rule_alertcrb
+    kubectl_manifest.namespacecheck_rule_alert_crb
   ]
 }
 
