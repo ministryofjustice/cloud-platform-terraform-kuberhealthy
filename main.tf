@@ -61,17 +61,23 @@ resource "helm_release" "kuberhealthy" {
 resource "kubectl_manifest" "namespacecheck_rule_alert_crb" {
   yaml_body = file("${path.module}/resources/cluster-role-binding.yaml")
 
+  wait = true
+
   depends_on = [helm_release.kuberhealthy]
 }
 
 resource "kubectl_manifest" "namespacecheck_rule_alert_cr" {
   yaml_body = file("${path.module}/resources/cluster-role.yaml")
 
+  wait = true
+
   depends_on = [helm_release.kuberhealthy]
 }
 
 resource "kubectl_manifest" "namespacecheck_rule_alert_sa" {
   yaml_body = file("${path.module}/resources/serviceaccount.yaml")
+
+  wait = true
 
   depends_on = [
     helm_release.kuberhealthy,
