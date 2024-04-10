@@ -54,7 +54,7 @@ resource "helm_release" "kuberhealthy" {
   }
 
   set {
-    name = "deployment.env.DAEMONSET_PRIORITY_CLASS_NAME"
+    name = "check.daemonset.extraEnvs.DAEMONSET_PRIORITY_CLASS_NAME"
     value = "system-cluster-critical"
   }
 
