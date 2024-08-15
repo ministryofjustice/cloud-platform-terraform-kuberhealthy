@@ -53,6 +53,11 @@ resource "helm_release" "kuberhealthy" {
     value = "false"
   }
 
+  set {
+    name = "check.daemonset.extraEnvs.DAEMONSET_PRIORITY_CLASS_NAME"
+    value = "cluster-critical"
+  }
+
   lifecycle {
     ignore_changes = [keyring]
   }
