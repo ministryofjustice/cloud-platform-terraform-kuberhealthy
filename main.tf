@@ -29,16 +29,6 @@ resource "helm_release" "kuberhealthy" {
   version    = "104"
 
   set {
-    name  = "auditFromCache"
-    value = "true"
-  }
-
-  set {
-    name  = "postInstall.labelNamespace.enabled"
-    value = "false"
-  }
-
-  set {
     name  = "prometheus.enabled"
     value = "true"
   }
@@ -56,6 +46,11 @@ resource "helm_release" "kuberhealthy" {
   set {
     name = "check.daemonset.extraEnvs.DAEMONSET_PRIORITY_CLASS_NAME"
     value = "cluster-critical"
+  }
+
+  set {
+    name = "checkReaper.logLevel"
+    value = "debug"
   }
 
   lifecycle {
