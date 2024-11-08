@@ -49,6 +49,11 @@ resource "helm_release" "kuberhealthy" {
   }
 
   set {
+    name = "check.deployment.extraEnvs.CHECK_DEPLOYMENT_REPLICAS"
+    value = "2"
+  }
+
+  set {
     name = "checkReaper.logLevel"
     value = "debug"
   }
